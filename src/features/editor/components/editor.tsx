@@ -24,7 +24,7 @@ const Editor = () => {
 
   //  We are trying to make canvas responsive, whenever the container size changes, we need to update the canvas size
   return (
-    <div className="h-full muted flex flex-col ">
+    <div className="h-full bg-muted flex flex-col ">
       <div className="flex-1 h-full" ref={containerRef}>
         <canvas className="border-2" ref={canvasRef} />
       </div>
