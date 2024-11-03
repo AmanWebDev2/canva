@@ -24,6 +24,10 @@ const Editor = () => {
       initialCanvas: canvas,
       initialContainer: containerRef.current!,
     });
+
+    return () => {
+      canvas.dispose();
+    };
   }, [init]);
 
   //  We are trying to make canvas responsive, whenever the container size changes, we need to update the canvas size
