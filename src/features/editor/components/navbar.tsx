@@ -17,8 +17,15 @@ import {
 } from "lucide-react";
 import { BsCloudCheck } from "react-icons/bs";
 import { CiFileOn } from "react-icons/ci";
+import { ActiveTool } from "../types";
+import { cn } from "@/lib/utils";
 
-export const Navbar = () => {
+interface NavbarProps {
+  activeTool: ActiveTool;
+  onChangeActiveTool: (tool: ActiveTool) => void;
+}
+
+export const Navbar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
   return (
     <nav className="h-[68px] bg-white flex items-center w-full gap-x-8 border-b lg:pl-[34px]">
       <Logo />
@@ -44,7 +51,12 @@ export const Navbar = () => {
         </DropdownMenu>
         <Separator orientation="vertical" className="mx-2" />
         <Hint label="Select" side="bottom" sideOffset={10}>
-          <Button variant="ghost" size="icon" className="" onClick={() => {}}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className={cn(activeTool === "select" && "bg-gray-100")}
+            onClick={() => onChangeActiveTool("select")}
+          >
             <MousePointerClick />
           </Button>
         </Hint>
