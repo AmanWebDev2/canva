@@ -12,7 +12,7 @@ import { ActiveTool } from "../types";
 import { ShapeSideBar } from "./shape-side-bar";
 
 const Editor = () => {
-  const { init } = useEditor();
+  const { init, editor } = useEditor();
 
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
@@ -58,6 +58,7 @@ const Editor = () => {
       <div className="absolute h-[calc(100%-68px)] w-full top-[68px] flex">
         <Sidebar activeTool={activeTool} onChangeTool={onChangeActiveTool} />
         <ShapeSideBar
+          editor={editor}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
         />
