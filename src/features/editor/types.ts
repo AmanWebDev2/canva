@@ -1,6 +1,16 @@
 import { fabric } from "fabric";
 import * as material from "material-colors";
 
+export const selectionDependentTools = [
+  "fill",
+  "stroke-color",
+  "stroke-width",
+  "font",
+  "opacity",
+  "filter",
+  "remove-bg",
+];
+
 export const colors = [
   material.red["500"],
   material.pink["500"],
@@ -44,7 +54,7 @@ export type ActiveTool =
 
 export const FILL_COLOR = "rgba(0,0,0,1)";
 export const STROKE_COLOR = "rgba(0,0,0,1)";
-export const STROKE_WIDTH = 2;
+export const STROKE_WIDTH = 5;
 
 export const CIRCLE_OPTIONS = {
   fill: FILL_COLOR,
@@ -109,9 +119,13 @@ export interface Editor {
   addTriangle: () => void;
   addInverseTriangle: () => void;
   addDiamond: () => void;
-  fillColor: string;
-  strokeColor: string;
+  getActiveFillColor: () => string;
+  getActiveStrokeColor: () => string;
   strokeWidth: number;
   canvas: fabric.Canvas;
   selectedObjects: fabric.Object[];
+}
+
+export interface EditorHookProps {
+  clearSelectionCallback?: () => void;
 }

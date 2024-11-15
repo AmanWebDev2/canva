@@ -8,17 +8,26 @@ import { Navbar } from "@/features/editor/components/navbar";
 import { Sidebar } from "@/features/editor/components/sidebar";
 import { Toolbar } from "@/features/editor/components/toolbar";
 import { Footer } from "./footer";
-import { ActiveTool } from "../types";
+import { ActiveTool, selectionDependentTools } from "../types";
 import { ShapeSideBar } from "@/features/editor/components/shape-side-bar";
 import { FillColorSidebar } from "@/features/editor/components/fill-color-sidebar";
+import { StrokeColorSidebar } from "./stroke-color-sidebar";
 
 const Editor = () => {
-  const { init, editor } = useEditor();
-
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
 
   const [activeTool, setActiveTool] = useState<ActiveTool>("select");
+
+  const onClearSelection = useCallback(() => {
+    if (selectionDependentTools.includes(activeTool)) {
+      setActiveTool("select");
+    }
+  }, [activeTool]);
+
+  const { init, editor } = useEditor({
+    clearSelectionCallback: onClearSelection,
+  });
 
   const onChangeActiveTool = useCallback(
     (tool: ActiveTool) => {
@@ -64,11 +73,16 @@ const Editor = () => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <FillColorSidebar
-         editor={editor}
-         activeTool={activeTool}
-         onChangeActiveTool={onChangeActiveTool}
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
         />
 
+        <StrokeColorSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
         <main className="bg-muted flex-1 overflow-auto relative flex flex-col">
           <Toolbar
             editor={editor}

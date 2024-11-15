@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useMemo, useState } from "react";
 
 import { fabric } from "fabric";
@@ -7,6 +9,7 @@ import {
   CIRCLE_OPTIONS,
   DIAMOND_OPTIONS,
   Editor,
+  EditorHookProps,
   FILL_COLOR,
   RECTANGLE_OPTIONS,
   STROKE_COLOR,
@@ -24,7 +27,7 @@ const buildEditor = ({
   setStrokeColor,
   strokeColor,
   strokeWidth,
-  selectedObjects
+  selectedObjects,
 }: BuildEditorProps): Editor => {
   const getWorkspace = () => {
     return canvas.getObjects().find((object) => object.name === "clip");
@@ -135,14 +138,24 @@ const buildEditor = ({
       addToCanvas(object);
     },
     canvas,
-    fillColor,
-    strokeColor,
+    getActiveFillColor: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) return fillColor;
+      const value = selectedObject.get("fill") || fillColor;
+      return value as string;
+    },
+    getActiveStrokeColor: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) return fillColor;
+      const value = selectedObject.get("stroke") || strokeColor;
+      return value as string;
+    },
     strokeWidth,
-  selectedObjects
+    selectedObjects,
   };
 };
 
-export const useEditor = () => {
+export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [selectedObjects, setSelectedObjects] = useState<fabric.Object[]>([]);
@@ -154,6 +167,7 @@ export const useEditor = () => {
   useCanvasEvents({
     canvas,
     setSelectedObjects,
+    clearSelectionCallback,
   });
 
   const editor = useMemo(() => {
@@ -166,11 +180,11 @@ export const useEditor = () => {
         setFillColor,
         setStrokeColor,
         setStrokeWidth,
-        selectedObjects
+        selectedObjects,
       });
     }
     return null;
-}, [canvas, fillColor, strokeColor, strokeWidth, selectedObjects]);
+  }, [canvas, fillColor, strokeColor, strokeWidth, selectedObjects]);
 
   const init = useCallback(
     ({

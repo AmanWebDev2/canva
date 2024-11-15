@@ -1,3 +1,5 @@
+"use client";
+
 import { fabric } from "fabric";
 import { useEffect } from "react";
 
@@ -5,12 +7,14 @@ interface UseCanvasEventsProps {
   canvas: fabric.Canvas | null;
   container?: HTMLDivElement | null;
   setSelectedObjects: (objects: fabric.Object[]) => void;
+  clearSelectionCallback?: () => void;
 }
 
 export const useCanvasEvents = ({
   canvas,
   container,
   setSelectedObjects,
+  clearSelectionCallback
 }: UseCanvasEventsProps) => {
   useEffect(() => {
     console.log("useCanvasEvents", canvas);
@@ -26,6 +30,7 @@ export const useCanvasEvents = ({
       canvas.on("selection:cleared", () => {
         console.log("selection:cleared");
         setSelectedObjects([]);
+        clearSelectionCallback?.();
       });
     }
 
@@ -36,5 +41,5 @@ export const useCanvasEvents = ({
         canvas.off("selection:cleared");
       }
     };
-  }, [canvas, setSelectedObjects]);
+  }, [canvas, setSelectedObjects,clearSelectionCallback]);
 };
