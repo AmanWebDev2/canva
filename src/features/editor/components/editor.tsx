@@ -12,6 +12,7 @@ import { ActiveTool, selectionDependentTools } from "../types";
 import { ShapeSideBar } from "@/features/editor/components/shape-side-bar";
 import { FillColorSidebar } from "@/features/editor/components/fill-color-sidebar";
 import { StrokeColorSidebar } from "./stroke-color-sidebar";
+import { StrokeWidthSidebar } from "./stroke-width-sidebar";
 
 const Editor = () => {
   const canvasRef = useRef(null);
@@ -61,6 +62,8 @@ const Editor = () => {
     };
   }, [init]);
 
+  console.log(activeTool);
+
   //  We are trying to make canvas responsive, whenever the container size changes, we need to update the canvas size
   return (
     <div className="h-full bg-muted flex flex-col ">
@@ -79,6 +82,11 @@ const Editor = () => {
         />
 
         <StrokeColorSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <StrokeWidthSidebar
           editor={editor}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
