@@ -15,10 +15,11 @@ import {
   STROKE_COLOR,
   STROKE_DASH_ARRAY,
   STROKE_WIDTH,
+  TEXT_OPTIONS,
   TRIANGLE_OPTIONS,
 } from "../types";
 import { useCanvasEvents } from "./use-canvas-events";
-import { isText } from "../utils";
+import { isTextType } from "../utils";
 
 const buildEditor = ({
   canvas,
@@ -52,6 +53,15 @@ const buildEditor = ({
     canvas.setActiveObject(object);
   };
   return {
+    addText: (value, options) => {
+      const object = new fabric.IText(value, {
+        ...TEXT_OPTIONS,
+        fill: fillColor,
+        ...options,
+      });
+
+      addToCanvas(object);
+    },
     changeOpacity: (value: number) => {
       canvas.getActiveObjects().forEach((object) => {
         object.set({ opacity: value });
@@ -107,7 +117,7 @@ const buildEditor = ({
     changeStrokeColor: (color: string) => {
       canvas.getActiveObjects().forEach((object) => {
         // text type does not have stroke
-        if (isText(object.type)) {
+        if (isTextType(object.type)) {
           object.set({ fill: color });
           return;
         }
