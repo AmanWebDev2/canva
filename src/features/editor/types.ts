@@ -130,6 +130,8 @@ export interface Editor {
   selectedObjects: fabric.Object[];
   changeStrokeDashArray: (value: number[]) => void;
   getActiveStrokeDashArray: () => number[];
+  bringForward: () => void;
+  sendBackwards: () => void;
 }
 
 export interface EditorHookProps {
