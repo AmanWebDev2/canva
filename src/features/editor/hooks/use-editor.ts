@@ -12,6 +12,7 @@ import {
   EditorHookProps,
   FILL_COLOR,
   FONT_FAMILY,
+  FONT_WEIGHT,
   RECTANGLE_OPTIONS,
   STROKE_COLOR,
   STROKE_DASH_ARRAY,
@@ -21,6 +22,7 @@ import {
 } from "../types";
 import { useCanvasEvents } from "./use-canvas-events";
 import { isTextType } from "../utils";
+import { ITextboxOptions } from "fabric/fabric-impl";
 
 const buildEditor = ({
   canvas,
@@ -110,6 +112,53 @@ const buildEditor = ({
         }
       });
       canvas.renderAll();
+    },
+    changeFontWeight: (value: number) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+          object._set("fontWeight", value);
+        }
+      });
+      canvas.renderAll();
+    },
+    changeFontStyle: (value: string) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+          object._set("fontStyle", value);
+        }
+      });
+      canvas.renderAll();
+    },
+    changeFontLineThrough: (value: boolean) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+          object._set("linethrough", value);
+        }
+      });
+      canvas.renderAll();
+    },
+    changeFontUnderline: (value: boolean) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+          object._set("underline", value);
+        }
+      });
+      canvas.renderAll();
+    },
+    changeTextAlign: (value: ITextboxOptions["textAlign"]) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+          object._set("textAlign", value);
+        }
+      });
+      canvas.renderAll();
+    },
+    getActiveTextAlign: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) return "left";
+      // @ts-ignore
+      const value = selectedObject.get("textAlign") || "left";
+      return value;
     },
     changeStrokeWidth: (width: number) => {
       setStrokeWidth(width);
@@ -223,6 +272,34 @@ const buildEditor = ({
       // @ts-ignore
       const value = selectedObject.get("fontFamily") || fontFamily;
       return value as string;
+    },
+    getActiveFontWeight: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) return "normal";
+      // @ts-ignore
+      const value = selectedObject.get("fontWeight") || "normal";
+      return value;
+    },
+    getActiveFontUnderline: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) return false;
+      // @ts-ignore
+      const value = selectedObject.get("underline") || false;
+      return value;
+    },
+    getActiveFontLineThrough: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) return false;
+      // @ts-ignore
+      const value = selectedObject.get("linethrough") || false;
+      return value;
+    },
+    getActiveFontStyle: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) return FONT_WEIGHT;
+      // @ts-ignore
+      const value = selectedObject.get("fontStyle") || FONT_WEIGHT;
+      return value;
     },
     getActiveStrokeColor: () => {
       const selectedObject = selectedObjects[0];

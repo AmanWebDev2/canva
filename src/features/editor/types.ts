@@ -89,6 +89,7 @@ export const STROKE_WIDTH = 5;
 export const STROKE_DASH_ARRAY = [];
 export const FONT_FAMILY = "Arial";
 export const FONT_SIZE = 32;
+export const FONT_WEIGHT = 400;
 
 export const CIRCLE_OPTIONS = {
   fill: FILL_COLOR,
@@ -170,6 +171,10 @@ export interface Editor {
   getActiveStrokeColor: () => string;
   getActiveStrokeWidth: () => number;
   getActiveFontFamily: () => string;
+  getActiveFontWeight: () => number;
+  getActiveFontStyle: () => string;
+  getActiveFontLineThrough: () => boolean;
+  getActiveFontUnderline: () => boolean;
   canvas: fabric.Canvas;
   strokeDashArray: number[];
   selectedObjects: fabric.Object[];
@@ -181,6 +186,12 @@ export interface Editor {
   getActiveOpacity: () => number;
   addText: (value: string, options?: ITextboxOptions) => void;
   changeFontFamily: (font: string) => void;
+  changeFontWeight: (weight: number) => void;
+  changeFontStyle: (style: string) => void;
+  changeFontLineThrough: (value: boolean) => void;
+  changeFontUnderline: (value: boolean) => void;
+  changeTextAlign: (value: string) => void;
+  getActiveTextAlign: () => string;
 }
 
 export interface EditorHookProps {
