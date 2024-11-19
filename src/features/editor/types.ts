@@ -132,6 +132,8 @@ export interface Editor {
   getActiveStrokeDashArray: () => number[];
   bringForward: () => void;
   sendBackwards: () => void;
+  changeOpacity: (value: number) => void;
+  getActiveOpacity: () => number;
 }
 
 export interface EditorHookProps {
