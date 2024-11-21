@@ -192,6 +192,8 @@ export interface Editor {
   changeFontUnderline: (value: boolean) => void;
   changeTextAlign: (value: string) => void;
   getActiveTextAlign: () => string;
+  changeFontSize: (size: number) => void;
+  getActiveFontSize: () => number;
 }
 
 export interface EditorHookProps {

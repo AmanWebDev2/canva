@@ -12,6 +12,7 @@ import {
   EditorHookProps,
   FILL_COLOR,
   FONT_FAMILY,
+  FONT_SIZE,
   FONT_WEIGHT,
   RECTANGLE_OPTIONS,
   STROKE_COLOR,
@@ -317,6 +318,21 @@ const buildEditor = ({
       const selectedObject = selectedObjects[0];
       if (!selectedObject) return strokeDashArray;
       const value = selectedObject.get("strokeDashArray") || strokeDashArray;
+      return value;
+    },
+    changeFontSize: (value: number) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+          object._set("fontSize", value);
+        }
+      });
+      canvas.renderAll();
+    },
+    getActiveFontSize: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) return FONT_SIZE;
+      // @ts-ignore
+      const value = selectedObject.get("fontSize") || FONT_SIZE;
       return value;
     },
     selectedObjects,
