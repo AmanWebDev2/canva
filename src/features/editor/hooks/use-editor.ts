@@ -335,6 +335,13 @@ const buildEditor = ({
       const value = selectedObject.get("fontSize") || FONT_SIZE;
       return value;
     },
+    delete: () => {
+      canvas.getActiveObjects().forEach((object) => {
+        canvas.remove(object);
+      });
+      canvas.discardActiveObject();
+      canvas.renderAll();
+    },
     selectedObjects,
     strokeDashArray,
   };

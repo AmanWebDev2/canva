@@ -194,6 +194,7 @@ export interface Editor {
   getActiveTextAlign: () => string;
   changeFontSize: (size: number) => void;
   getActiveFontSize: () => number;
+  delete: () => void;
 }
 
 export interface EditorHookProps {
